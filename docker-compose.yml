@@ -49,5 +49,18 @@ services:
     depends_on:
       - broker
       - ksqldb-server
+    volumes:
+      - ./app/ksql-scripts/:/data/scripts/
     entrypoint: /bin/sh
     tty: true
+
+  timescale-db:
+    image: timescale/timescaledb:latest-pg12
+    container_name: timescale-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=my_user
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./app/timescale/:/var/lib/postgresql/data
